@@ -61,3 +61,43 @@ for i in range(1, n):
         dp[i] = min(v1, v2)
 
 print(dp[n - 1])
+
+
+# 029
+n = int(input())
+
+dp = [0] * (n + 1)
+for i in range(n + 1):
+    if i <= 1:
+        dp[i] = 1
+    else:
+        dp[i] = dp[i - 1] + dp[i - 2]
+
+print(dp[n])
+
+
+# 030
+N, W = map(int, input().split())
+w = [0] * N
+v = [0] * N
+for i in range(N):
+    w[i], v[i] = map(int, input().split())
+
+# 配列の初期化
+INF = 10 ** 18
+dp = [[0] * (W + 1) for _ in range(N + 1)]
+dp[0][0] = 0
+for i in range(1, W + 1):
+    dp[0][i] = -INF
+
+# 動的計画法
+# w,vは0インデックス
+for i in range(1, N + 1):
+    for j in range(0, W + 1):
+        if j < w[i - 1]:  # w[i - 1]はとるか取らないか考えてる、現在の品物
+            dp[i][j] = dp[i - 1][j]
+        else:
+            dp[i][j] = max(dp[i - 1][j], dp[i - 1][j - w[i - 1]] + v[i -1])
+
+ans = max(dp[N])
+print(ans)
