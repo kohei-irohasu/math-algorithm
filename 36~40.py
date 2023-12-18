@@ -77,4 +77,20 @@ else:
         print('Yes')
     else:
         print('No')
-         
+
+
+# 038
+# b[0] = 0と置くと実装が楽
+n, q = map(int, input().split())
+a = list(map(int, input().split()))
+b = [0 for _ in range(n + 1)]
+b[0] = 0
+for i in range(n):
+    b[i + 1] += b[i] + a[i]
+
+for i in range(q):
+    l, r = map(int, input().split())
+    print(b[r] - b[l - 1])
+
+
+# 039
