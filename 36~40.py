@@ -94,3 +94,49 @@ for i in range(q):
 
 
 # 039
+# 求めるのは大小関係のみだから、階差をとって
+# 計算量を減らす。
+n, q = map(int, input().split())
+l = [None] * q
+r = [None] * q
+x = [None] * q
+for i in range(q):
+    l[i], r[i], x[i] = map(int, input().split())
+
+# 階差の計算
+b = [0] * (n + 2)
+for i in range(q):
+    b[l[i]] += x[i]
+    b[r[i] + 1] -= x[i]
+
+# 答えを計算を出力
+ans = ""
+for i in range(2, n + 1):
+    if b[i] > 0:
+        ans += '<'
+    if b[i] == 0:
+        ans += '='
+    if b[i] < 0:
+        ans += '>'
+print(ans)
+
+
+# 040
+# 階差をとるときはインデックスに注意。
+# 0なのか、1なのか注意する
+n = int(input())
+a = list(map(int, input().split()))
+m = int(input())
+b = [0] * m
+for i in range(m):
+    b[i] = int(input())
+
+s = [0] * n
+for i in range(1, n):
+    s[i] = s[i - 1] + a[i - 1]
+
+ans = 0
+for i in range(m - 1):
+     ans += abs(s[b[i] - 1] - s[b[i + 1] - 1])
+
+print(ans)
