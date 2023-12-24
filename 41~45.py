@@ -50,3 +50,71 @@ for i in range(1, n+1):
 
 print(ans)
 
+
+# 043 DFS
+n, m = map(int, input().split())
+a = [0] * m
+b = [0] * m
+for i in range(m):
+    a[i], b[i] = map(int, input().split())
+    
+# 隣接リストの作成
+g = [list() for _ in range(n + 1)]
+for i in range(m):
+    g[a[i]].append(b[i])
+    g[b[i]].append(a[i])
+
+# 深さ優先探索の初期化
+visited = [False] * (n + 1)
+s = list()  # スタックを定義
+visited[1] = True
+s.append(1)
+
+# 深さ優先探索
+while len(s) >= 1:
+    pos = s.pop()
+    for nex in g[pos]:
+        if visited[nex] == False:
+            visited[nex] = True
+            s.append(nex)
+
+# 連結か同課の判定
+ans = True
+for i in range(1, n + 1):
+    if visited[i] == False:
+        ans = False
+if ans:
+    print('The graph is connected.')
+else:
+    print('The graph is not connected.')
+
+
+# 044
+import queue
+n, m = map(int, input().split())
+a = [0] * m
+b = [0] * m
+for i in range(m):
+    a[i], b[i] = map(int, input().split())
+
+g = [list() for _ in range(n + 1)]
+for i in range(m):
+    g[a[i]].append(b[i])
+    g[b[i]].append(a[i])
+
+# 幅優先探索の初期化
+dist = [-1] * (n + 1)
+q = queue.Queue()
+dist[1] = 0
+q.put(1)
+
+# 幅優先探索
+while not q.empty():
+    pos = q.get()
+    for nex in g[pos]:
+        if dist[nex] == -1:
+            dist[nex] = dist[pos] + 1
+            q.put(nex)
+
+for i in range(1, n + 1):
+    print(dist[i])
