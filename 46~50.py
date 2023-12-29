@@ -44,3 +44,39 @@ while not q.empty():
             q.put(nex)
 
 print(dist[goal])
+
+
+# 047
+# 連結を前提としないなら、すべての頂点について
+# 深さ優先探索を行わなければならない。
+def dfs(start, g, color):
+    s = [start]
+    color[start] = 0
+    
+    while s:
+        pos = s.pop()
+        for nex in g[pos]:
+            if color[nex] == -1:
+                color[nex] = 1 - color[pos]
+                s.append(nex)
+
+n, m = map(int, input().split())
+a = [None] * m
+b = [None] * m
+for i in range(m):
+    a[i], b[i] = map(int, input().split())
+
+g = [[] for _ in range(n + 1)]
+for i in range(m):
+    g[a[i]].append(b[i])
+    g[b[i]].append(a[i])
+
+color = [-1] * (n + 1)
+
+for i in range(1, n + 1):
+    if color[i] == -1:
+        dfs(i, g, color)
+    
+# 二部グラフかどうか
+ans = all(color[a[i]] != color[b[i]] for i in range(m))
+print('Yes' if ans else 'No')           
