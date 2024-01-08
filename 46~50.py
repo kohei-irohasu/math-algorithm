@@ -79,4 +79,41 @@ for i in range(1, n + 1):
     
 # 二部グラフかどうか
 ans = all(color[a[i]] != color[b[i]] for i in range(m))
-print('Yes' if ans else 'No')           
+print('Yes' if ans else 'No') 
+
+
+# 048 ダイクストラ法
+# kの倍数＝ kで割り切れる
+import heapq
+k = int(input())
+
+# 隣接リストの作成 → グラフの辺を追加
+g = [list() for i in range(k)]
+for i in range(k):
+    for j in range(10):
+        if i == 0 and j == 0:
+            continue
+        g[i].append(((i * 10 + j) % k, j))
+
+# ダイクストラ法: 配列の初期化
+dist = [10 ** 10] * k
+used = [False] * k
+q = list()
+heapq.heappush(q, (0, 0))  #d[0] = 0としない
+
+# ダイクストラ法: 優先度付きキューの更新
+while len(q) >= 1:
+    pos = heapq.heappop(q)[1]
+    if used[pos] == True:
+        continue
+    used[pos] = True
+    for i in g[pos]:
+        to = i[0]
+        cost = dist[pos] + i[1]
+        if pos == 0:
+            cost = i[1]
+        if dist[to] > cost:
+            dist[to] = cost
+            heapq.heappush(q, (dist[to], to))
+
+print(dist[0])
