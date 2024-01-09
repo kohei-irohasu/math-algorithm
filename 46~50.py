@@ -117,3 +117,29 @@ while len(q) >= 1:
             heapq.heappush(q, (dist[to], to))
 
 print(dist[0])
+
+
+# 049
+# fibonacci、効率的な余りの計算
+n = int(input())
+
+a = [None] * (n + 1)
+a[1], a[2] = 1, 1
+for i in range(3, n + 1):
+    a[i] = (a[i - 1] + a[i - 2]) % 1000000007
+print(a[n] % 1000000007)
+
+
+# 050
+def modpow(a, b, m):
+    p = a
+    ans = 1
+    for i in range(30):
+        if (b & (1 << i)) != 0:
+            ans = (ans * p) % m
+        p = (p * p) % m
+    return ans
+
+MOD = 1000000007
+a, b = map(int, input().split())
+print(modpow(a, b, MOD))
