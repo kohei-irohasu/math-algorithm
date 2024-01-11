@@ -88,3 +88,98 @@ else:
     for i in range(1, b + 1):
         bunbo = (bunbo * i) % mod
     print(division(bunshi, bunbo, mod))
+    
+
+# 053
+def modpow(a, b, m):
+    p = a
+    ans = 1
+    for i in range(60):
+        if (b &(1 << i)) != 0:
+            ans = (ans * p) % m
+        p = (p * p) % m
+    return ans
+
+def division(a, b, m):
+    return (a * modpow(b, m - 2, m)) % m
+
+n = int(input())
+mod = 1000000007
+v = modpow(4, n + 1, mod) - 1
+ans = division(v, 3, mod)
+print(ans)
+
+
+# 054
+from copy import deepcopy
+mod = 1000000000
+
+# 行列の積を返す関数
+def multiply(a, b):
+    global mod
+    c = [[0, 0], [0, 0]]
+    for i in range(2):
+        for j in range(2):
+            for k in range(2):
+                c[i][j] += a[i][k] * b[k][j]
+                c[i][j] %= mod
+    return c
+
+# aのn乗を返す関数
+def power(a, n):
+    p = deepcopy(a)
+    q = [[0, 0], [0, 0]]
+    flag = False
+    for i in range(60):
+        if (n & (1 << i)) != 0:
+            if flag == False:
+                q = deepcopy(p)
+                flag = True
+            else:
+                q = deepcopy(multiply(q, p))
+        p = deepcopy(multiply(p, p))
+    return q
+
+n = int(input())
+a = [[1, 1], [1, 0]]
+b = power(a, n - 1)
+
+ans = (b[1][0] + b[1][1]) % mod
+print(ans)
+
+
+# 055
+from copy import deepcopy
+mod = 1000000007
+
+# 行列の積を返す関数
+def multiply(a, b):
+    global mod
+    c = [[0, 0], [0, 0]]
+    for i in range(2):
+        for j in range(2):
+            for k in range(2):
+                c[i][j] += (a[i][k] * b[k][j]) % mod
+    return c
+
+# aのn乗を返す関数
+def power(a, n):
+    p = a
+    q = [[0, 0], [0, 0]]
+    flag = False
+    for i in range(60):
+        if (n & (1 << i)) != 0:
+            if flag == False:
+                q = deepcopy(p)
+                flag = True
+            else:
+                q = multiply(q, p)
+        p = multiply(p, p)
+    return q
+
+n = int(input())
+a = [[2, 1], [1, 0]]
+b = power(a, n - 1)
+
+ans = (b[1][0] + b[1][1]) % mod
+print(ans)
