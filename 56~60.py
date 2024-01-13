@@ -36,3 +36,36 @@ print(ans)
 
 
 # 058
+n, x, y = map(int, input().split())
+x, y = abs(x), abs(y)
+if (x + y) > n:
+    print('No')
+else:
+    if (n - (x + y)) % 2 == 0:
+        print('Yes')
+    else:
+        print('No')
+        
+
+# 059
+n = int(input())
+
+ans = 0
+num = n % 4
+if num == 0:
+    ans = 6
+elif num == 1:
+    ans = 2
+elif num == 2:
+    ans = 4
+else:
+    ans = 8
+print(ans)
+
+
+# 060
+n = int(input())
+if n % 4 == 0:
+    print('Second')
+else:
+    print('First')
