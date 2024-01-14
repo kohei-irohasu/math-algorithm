@@ -7,3 +7,67 @@ for i in range(1, 60):
         flag = True
 
 print('Second' if flag else 'First')
+
+
+# 062
+def find_kth_town(n, k, a):
+    first = [-1] * (n + 1)
+    second = [-1] * (n + 1)
+    
+    cnt = 0
+    cur = 1
+    l = list()
+    
+    while True:
+        if first[cur] == -1:
+            first[cur] = cnt
+            l.append(cur)
+        elif second[cur] == -1:
+            second[cur] = cnt
+            index = (k - first[cur]) % (second[cur] - first[cur])
+            return l[first[cur] + index]
+        
+        # ループしないとき
+        if cnt == k:
+            return cur
+        
+        cur = a[cur - 1]
+        cnt += 1
+
+n, k = map(int, input().split())
+a = list(map(int, input().split()))
+
+result = find_kth_town(n, k, a)
+print(result)
+
+# 別解
+import sys
+
+n, k = map(int, input().split())
+a = list(map(int, input().split()))
+
+# 配列の初期化
+first = [-1 for _ in range(n + 1)]
+second = [-1 for _ in range(n + 1)]
+
+# 答えを求める
+# curは現在の町
+cnt = 0
+cur = 1
+while True:
+    if first[cur] == -1:
+        first[cur] = cnt
+    elif second[cur] == -1:
+        second[cur] = cnt
+    
+    # k回後の移動で町curにいるか判定
+    if cnt == k:
+        print(cur)
+        sys.exit()
+    elif second[cur] != -1 and (k - first[cur]) % (second[cur] - first[cur]) == 0:
+        print(cur)
+        sys.exit()
+    
+    cur = a[cur - 1]
+    cnt += 1
+    
