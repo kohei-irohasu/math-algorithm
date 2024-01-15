@@ -71,3 +71,42 @@ while True:
     cur = a[cur - 1]
     cnt += 1
     
+
+# 063
+n = int(input())
+print('Yes' if n % 2 == 0 else 'No')
+
+
+# 064
+n, k = map(int, input().split())
+a = list(map(int, input().split()))
+s = 0
+for i in a:
+    s += i
+
+if s > k:
+    print('No')
+elif (s - k) % 2 == 0:
+    print('Yes')
+else:
+    print('No')
+    
+    
+# 065
+h, w = map(int, input().split())
+if h == 1 or w == 1:
+    print(1)
+else:
+    evan = w // 2
+    add = w - evan
+    enum = h // 2
+    anum = h - enum
+    ans = evan * enum + add * anum
+    print(ans)
+    
+# 別解、スマート
+h, w = map(int, input().split())
+if h == 1 or w == 1:
+    print(1)
+else:
+    print((h * w + 1) // 2)
