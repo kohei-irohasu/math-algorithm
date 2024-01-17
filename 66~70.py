@@ -71,4 +71,44 @@ for i in range(1, 1 << k):  # 2^k - 1個の集合
     else:
         ans -= num
 
-print(ans)            
+print(ans)
+
+
+# 069
+# ぎりぎりを考える。
+# 答えになりうる値で全探索。
+a, b, c, d = map(int, input().split())
+print(max(a * c, a * d, b * c, b * d))
+
+
+# 070
+# ギリギリ → 辺上に点がある → ありうる長方形の４点の座標は
+# 与えられた点のどれかに合致しなくてはいけない。
+# 最適でありうる長方形を全探索し、その中で、点をk点以上含む
+# 長方形の最小値を求める。cl < cr, dl < drで計算量を削減。
+def check_numpoints(n, x, y, lx, rx, ly, ry):
+    cnt = 0
+    for i in range(n):
+        if lx <= x[i] and x[i] <= rx and ly <= y[i] and y[i] <= ry:
+            cnt += 1
+            
+    return cnt
+
+n, K = map(int, input().split())
+x = [None] * n
+y = [None] * n
+for i in range(n):
+    x[i], y[i] = map(int, input().split())
+
+ans = 10 ** 19
+for i in range(n):
+    for j in range(n):
+        for k in range(n):
+            for l in range(n):
+                cl, cr, dl, dr = x[i], x[j], y[k], y[l]
+                if cl < cr and dl < dr:
+                    if check_numpoints(n, x, y, cl, cr, dl, dr) >= K:
+                        area = (cr - cl) * (dr - dl)
+                        ans = min(ans, area)
+
+print(ans)
