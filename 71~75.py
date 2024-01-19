@@ -51,3 +51,22 @@ print(ans)
 
 
 # 073
+# それぞれの整数が何回最大となるかを考える。
+# また、2^nの計算は先に計算して、リストを作り、
+# 同じ計算を何度もしないようにして、計算量を減らす。
+n = int(input())
+a = list(map(int, input().split()))
+
+# 2^iを先に求めておく
+mod = 1000000007
+power = [0 for _ in range(n)]
+power[0] = 1
+for i in range(1, n):
+    power[i] = (2 * power[i - 1]) % mod
+    
+ans = 0
+for i in range(n):
+    ans += a[i] * power[i]
+    ans %= mod
+
+print(ans)
