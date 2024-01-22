@@ -70,3 +70,51 @@ for i in range(n):
     ans %= mod
 
 print(ans)
+
+
+# 074
+n = int(input())
+a = list(map(int, input().split()))
+
+ans = 0
+for i in range(n):
+    ans += a[i] * (- n + 2 * i + 1)
+
+print(ans)
+
+
+# 075
+# nCrは階乗を先に計算しておく。
+# また、割り算はモジュラ逆数を使って、累乗の掛け算にする。
+# 累乗の計算を効率的に行うために、繰り返し二乗法を利用する。
+def modpow(a, b, m):
+    p = a
+    ans = 1
+    for i in range(30):
+        if (b & (1 << i)) != 0:
+            ans = (ans * p) % m
+        p = (p * p) % m
+    return ans 
+
+def division(a, b, m):
+    return a * modpow(b, m - 2, m) % m
+
+def ncr(n, r):
+    global s, mod
+    return division(s[n], s[r] * s[n - r] % mod, mod)
+
+n = int(input())
+a = list(map(int, input().split()))
+mod = 1000000007
+
+s = [None] * (n + 1)
+s[0] = 1
+for i in range(1, n + 1):
+    s[i] = (s[i - 1] * i) % mod
+
+ans = 0
+for i in range(n):
+    ans += a[i] * ncr(n - 1, i)
+    ans %= mod
+
+print(ans)
