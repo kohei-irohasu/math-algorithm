@@ -62,3 +62,13 @@ while not q.empty():
 
 for i in range(1, n + 1):
     print(120 if dist[i] >= 120 or dist[i] == -1 else dist[i])
+
+
+# 079
+n = int(input())
+
+ans = n * (n - 1) // 2
+print(ans)
+
+
+# 080
