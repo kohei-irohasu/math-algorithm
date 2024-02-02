@@ -72,3 +72,41 @@ print(ans)
 
 
 # 080
+# 重み付きグラフの最短経路長
+import heapq
+
+n, m = map(int, input().split())
+a, b, c = [None] * m , [None] * m , [None] * m
+for i in range(m):
+    a[i], b[i], c[i] = map(int, input().split())
+    
+# 隣接リストの作成
+g = [list() for i in range(n + 1)]
+for i in range(m):
+    g[a[i]].append((b[i], c[i]))
+    g[b[i]].append((a[i], c[i]))
+
+# ダイクストラ法: 配列の初期化
+dist = [10 ** 19] * (n + 1)
+used = [False] * (n + 1)
+q = list()
+dist[1] = 0
+heapq.heappush(q, (0, 1))
+
+# ダイクストラ法: 優先度付きキューの更新
+while len(q) >= 1:
+    pos = heapq.heappop(q)[1]
+    if used[pos] == True:
+        continue
+    used[pos] = True
+    for i in g[pos]:
+        to = i[0]
+        cost = dist[pos] + i[1]
+        if dist[to] > cost:
+            dist[to] = cost
+            heapq.heappush(q, (dist[to], to))
+            
+if dist[n] != 10 ** 19:
+    print(dist[n])
+else:
+    print(-1)
