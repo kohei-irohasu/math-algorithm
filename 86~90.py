@@ -36,3 +36,22 @@ c_sum = c * (c + 1) // 2
 
 ans = (a_sum * b_sum * c_sum) % mod
 print(ans)
+
+
+# 089
+import sys
+
+a, b, c = map(int, input().split())
+
+if c == 1:
+    print('No')
+    sys.exit()
+
+v = 1
+for i in range(b):
+    v *= c
+    if a < v:
+        print('Yes')
+        sys.exit()
+
+print('No')
