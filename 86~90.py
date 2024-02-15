@@ -55,3 +55,42 @@ for i in range(b):
         sys.exit()
 
 print('No')
+
+
+# 090
+# 整数mの各桁の積を返す関数
+def product(m):
+    if m == 0:
+        return 0
+    ans = 1
+    while m >= 1:
+        ans *= (m % 10)
+        m //= 10
+    return ans
+
+# 各桁の積の候補の集合を返す関数
+# digitは現在の桁数
+def func(digit, m):
+    if digit == 11:
+        return {product(m)}
+    min_value = m % 10
+    ret = set()
+    for i in range(min_value, 10):
+        r = func(digit + 1, m * 10 + i)
+        for j in r:
+            ret.add(j)
+    return ret
+
+n, b = map(int, input().split())
+
+# 各桁の候補の積を列挙
+fm_cand = func(0, 0)
+
+ans = 0
+for fm in fm_cand:
+    m = fm + b
+    prod_m = product(m)
+    if m - prod_m == b and m <= n:
+        ans += 1
+
+print(ans)
