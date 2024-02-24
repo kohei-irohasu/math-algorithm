@@ -27,4 +27,28 @@ for i in range(sumT + 1):
     if dp[n][i] == True:
         cooking_time = max(i, sumT - i)
         ans = min(ans, cooking_time)
-print(ans)                                         
+print(ans)         
+
+
+# 097
+l, r = map(int, input().split())
+
+# 配列の初期化
+isprime = [True] * (r - l + 1)
+if l == 1:
+    isprime[0] = False
+    
+# エラトステネスの篩
+LIMIT = int(r ** 0.5)
+for i in range(2, LIMIT + 1):
+    min_value = ((l + i - 1) // i) * i
+    for j in range(min_value, r + 1, i):
+        if j == i:
+            continue
+        isprime[j - l] = False
+
+ans = 0
+for i in range(r - l + 1):
+    if isprime[i] == True:
+        ans += 1
+print(ans)                                
