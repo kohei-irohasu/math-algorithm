@@ -51,4 +51,29 @@ ans = 0
 for i in range(r - l + 1):
     if isprime[i] == True:
         ans += 1
-print(ans)                                
+print(ans)
+
+
+# 098
+n = int(input())
+x = [None] * n
+y = [None] * n
+for i in range(n):
+    x[i], y[i] = map(int, input().split())
+a, b = map(int, input().split())
+
+# 交差する数を考える
+cnt = 0
+for i in range(n):
+    xa, ya = x[i] - a, y[i] - b
+    xb, yb = x[(i + 1) % n] - a, y[(i + 1) % n] - b
+    if ya > yb:
+        xa, xb = xb, xa
+        ya, yb = yb, ya
+    if ya <= 0 and 0 < yb and xa * yb - xb * ya < 0:
+        cnt += 1
+
+if cnt % 2 == 1:
+    print('INSIDE')
+else:
+    print('OUTSIDE')
