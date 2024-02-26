@@ -77,3 +77,39 @@ if cnt % 2 == 1:
     print('INSIDE')
 else:
     print('OUTSIDE')
+    
+
+# 099
+import sys
+
+# 深さ優先探索を行う関数
+def dfs(pos, g, visited, dp):
+    visited[pos] = True
+    dp[pos] = 1
+    for i in g[pos]:
+        if visited[i] == False:
+            dfs(i, g, visited, dp)
+            dp[pos] += dp[i]
+
+sys.setrecursionlimit(120000)
+
+n = int(input())
+a = [None] * (n - 1)
+b = [None] * (n - 1)
+for i in range(n - 1):
+    a[i], b[i] = map(int, input().split())
+
+g = [list() for i in range(n + 1)]
+for i in range(n - 1):
+    g[a[i]].append(b[i])
+    g[b[i]].append(a[i])
+
+# 深さ優先探索(DFS)を使った動的計画法
+visited = [False] * (n + 1)
+dp = [None] * (n + 1)
+dfs(1, g, visited, dp)
+
+ans = 0
+for i in range(2, n + 1):
+    ans += dp[i] * (n - dp[i])
+print(ans)
