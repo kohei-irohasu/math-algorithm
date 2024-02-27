@@ -113,3 +113,17 @@ ans = 0
 for i in range(2, n + 1):
     ans += dp[i] * (n - dp[i])
 print(ans)
+
+
+# 100
+# 漸化式 => 行列で解く
+# numpyを使う
+import numpy as np
+
+q = int(input())
+for i in range(q):
+    s = input().split()
+    x, y, z, t = float(s[0]), float(s[1]), float(s[2]), int(s[3])
+    a = np.array([[1 - x, y, 0], [0, 1 - y, z], [x, 0, 1 - z]])
+    ans = np.linalg.matrix_power(a, t)
+    print("%.15f %.15f %.15f" % (sum(ans[0]), sum(ans[1]), sum(ans[2])))
