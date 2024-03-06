@@ -34,3 +34,33 @@ for i in range(1, n + 1):
         ans += ncr(n - (i - 1) * (j - 1), j)
         ans %= mod
     print(ans)
+    
+
+# 102
+# ncrのmodｐはリュカの定理を覚えて
+# 使えるようになろうということ
+# リュカの定理でncr mod3を求める
+# 商と余りの桁ごとの二項係数の積を割った余りと
+# ncr mod 3は同じ値になる
+def ncr(n, r):
+    if n < 3 and r < 3:
+        a = [
+            [1, 0, 0],
+            [1, 1, 0],
+            [1, 2, 1]
+        ]
+        return a[n][r]
+    return ncr(n // 3, r // 3) * ncr(n % 3, r % 3) % 3
+
+n = int(input())
+c = input()
+ans = 0
+for i in range(n):
+    code = 'BWR'.find(c[i])
+    ans += code * ncr(n - 1, i)
+    ans %= 3
+
+if n % 2 == 0:
+    ans *= - 1 
+
+print('BWR'[ans])
