@@ -40,6 +40,7 @@ print(2 * N + 3)
 
 
 # 007
+# nが小さいから全探索でオッケー
 N, X, Y = map(int, input().split())
 
 ans = 0
@@ -63,33 +64,37 @@ print(cnt)
 
 # 009 動的計画法Version
 # 入力
-N, S = map(int, input().split())
-A = list(map(int, input().split()))
+n, s = map(int, input().split())
+a = list(map(int, input().split()))
 
 # 配列の初期化
-dp = [ [  None ] * (S + 1) for _ in range(N + 1)]
+#   forループを使って各行を独立したものにする
+dp = [[None] * (s + 1) for _ in range(n + 1)]
 dp[0][0] = True
-for i in range(1, S + 1):
+for i in range(1, s + 1):
     dp[0][i] = False
-
+    
 # 動的計画法
-for i in range(1, N + 1):
-    for j in range(0, S + 1):
-        if j < A[i - 1]: # カードiを選べない
+#   カードを選べるかどうか
+#   カードを選べるとき、選ぶか否かで場合分け
+for i in range(1, n + 1):
+    for j in range(s + 1):
+        if j < a[i - 1]:  # カードiを選べない
             dp[i][j] = dp[i - 1][j]
         else:
             # カードiを選ぶ、選ばないの両方の選択肢がある
-            if (dp[i - 1][j] == True or dp[i - 1][j - A[i - 1]] == True):
+            # A[i - 1]はこれから選ぼうとしているカード
+            if dp[i - 1][j] == True or dp[i - 1][j - a[i - 1]] == True:
                 dp[i][j] = True
             else:
                 dp[i][j] = False
 
 # 答えを出力
-if dp[N][S] == True:
+if dp[n][s]:
     print('Yes')
 else:
-    print('No')   
-    
+    print('No')
+
 
 # 010
 N = int(input())
