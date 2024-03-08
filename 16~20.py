@@ -1,10 +1,8 @@
 # 016
+# 二つの整数を受け取って、gcdを返す関数
 def gcd(a, b):
-    if a > b:
-        a, b = b, a
-    
-    while b % a != 0:
-        a, b = b % a, a
+    while b > 0:
+        a, b = b, a % b
     return a
 
 n = int(input())
