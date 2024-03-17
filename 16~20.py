@@ -42,21 +42,24 @@ print(ans)
 
 
 # 018
+# 答えになる組み合わせを考える
 n = int(input())
 A = list(map(int, input().split()))
 
 a, b, c, d = 0, 0, 0, 0
-for i in range(n):
-    if A[i] == 100:
+
+for i in A:
+    if i == 100:
         a += 1
-    elif A[i] == 200:
+    elif i == 200:
         b += 1
-    elif A[i] == 300:
+    elif i == 300:
         c += 1
-    else:
+    elif i == 400:
         d += 1
 
-print(a * d + b * c)
+ans = a * d + b * c
+print(ans)  
 
 
 # 019
