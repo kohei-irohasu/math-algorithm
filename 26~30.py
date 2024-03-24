@@ -1,4 +1,10 @@
 # 026
+# 今求めたいのはコンプリートするのに必要な金額
+# だけど、1回 = 1ドルなので、回数を求めると考えても問題ない
+# よって回数の期待値を求める。回数の期待値はどんな確率で何回行うか？
+# 期待値の線形性より、
+# 0 -> 1, 1 -> 2, ..., n - 1 -> nにかかるそれぞれの回数の期待値を
+# すべて足したもの。
 n = int(input())
 ans = 0
 for i in range(1, n + 1):
@@ -9,39 +15,46 @@ print("%.7f" % (ans))
 
 
 # 027
-def mergeSort(a):
-    if len(a) == 1:
-        return a
+def MergeSort(A):
+    # 長さが１だったら、何もしない
+    if len(A) == 1:
+        return A
     
-    m = len(a) // 2
-    a_dash = mergeSort(a[0:m])
-    b_dash = mergeSort(a[m:len(a)])
+    # 2つに分割した後、小さい配列をソート
+    m = len(A) // 2
+    A_Dash = MergeSort(A[0:m])
+    B_Dash = MergeSort(A[m:len(A)])
     
-    c1 = 0  # a_dashのcに入れた数
-    c2 = 0  # b_dashのcに入れた数
-    c = []
-    while (c1 < len(a_dash) or c2 < len(b_dash)):
-        if c1 == len(a_dash):
-            # a_dashが空の場合
-            c.append(b_dash[c2])
+    # この時点で以下の２つの配列がソートされている
+    # 列A'に相当するもの(A_Dash[0], A_Dash[1]...)
+    # 列B'に相当するもの(B_Dash[0], B_Dash[1]...)
+    # 以下がMerge操作
+    c1 = 0 # A'のインデックス
+    c2 = 0 # B'のインデックス
+    C = []
+    while(c1 < len(A_Dash) or c2 < len(B_Dash)):
+        if c1 == len(A_Dash):
+            # A'が空の場合
+            C.append(B_Dash[c2])
             c2 += 1
-        elif c2 == len(b_dash):
-            # b_dashが空の場合
-            c.append(a_dash[c1])
+        elif c2 == len(B_Dash):
+            # B'が空の場合
+            C.append(A_Dash[c1])
             c1 += 1
         else:
-            if a_dash[c1] <= b_dash[c2]:
-                c.append(a_dash[c1])
+            if A_Dash[c1] <= B_Dash[c2]:
+                C.append(A_Dash[c1])
                 c1 += 1
             else:
-                c.append(b_dash[c2])
+                C.append(B_Dash[c2])
                 c2 += 1
-    return c
+    
+    return C
 
-n = int(input())
-a = list(map(int, input().split()))
+N = int(input())
+A = list(map(int, input().split()))
 
-ans = mergeSort(a)
+ans = MergeSort(A)
 print(*ans)
 
 
