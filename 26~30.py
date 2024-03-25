@@ -97,6 +97,7 @@ for i in range(N):
     w[i], v[i] = map(int, input().split())
 
 # 配列の初期化
+# 価値の総和を求めたいので、初期値は0
 INF = 10 ** 18
 dp = [[0] * (W + 1) for _ in range(N + 1)]
 dp[0][0] = 0
@@ -108,7 +109,7 @@ for i in range(1, W + 1):
 for i in range(1, N + 1):
     for j in range(0, W + 1):
         if j < w[i - 1]:  # w[i - 1]はとるか取らないか考えてる、現在の品物
-            dp[i][j] = dp[i - 1][j]
+            dp[i][j] = dp[i - 1][j] # 取れないから総和は変わらない
         else:
             dp[i][j] = max(dp[i - 1][j], dp[i - 1][j - w[i - 1]] + v[i -1])
 
