@@ -15,10 +15,13 @@ print(dp[n])
 # 032
 n, x = map(int, input().split())
 a = list(map(int, input().split()))
-
 a.sort()
 
 # 二分探索
+    # a[mid] != xのとき、midは探索範囲から外してよい
+    # よって、right = mid - 1, left = mid + 1とする
+    # また、xが探索範囲にないとき、right = midにようにしていると
+    # 無限ループに陥る可能性がある。
 ans = 'No'
 left, right = 0, n - 1
 while left <= right:
