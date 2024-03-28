@@ -38,6 +38,7 @@ print(ans)
 
 
 # 033
+# math.sqrtは与えられた引数の平方根を求める
 import math
 
 ax, ay = map(int, input().split())
@@ -51,6 +52,9 @@ CAx, CAy = ax - cx, ay - cy
 CBx, CBy = bx - cx, by - cy
 
 # 点の位置で場合分け
+# pattern1: <ABCが鈍角 => ABが最短
+# pattern2: <ABCが鋭角 => 点Aと線分BCの高さが最短
+# pattern3: <ACBが鈍角 => ACが最短
 pattern = 2
 if BAx * BCx + BAy * BCy < 0:
     pattern = 1
@@ -63,7 +67,7 @@ if pattern == 1:
 if pattern == 3:
     ans = math.sqrt(CAx ** 2 + CAy ** 2)
 if pattern == 2:
-    s = abs(BAx * BCy - BAy * BCx)
+    s = abs(BAx * BCy - BAy * BCx) # 面積 = 外積
     bc = math.sqrt(BCx ** 2 + BCy ** 2)
     ans = s / bc
     
