@@ -1,14 +1,18 @@
 # 036
 # 余弦定理version
 import math
+
 a, b, h, m = map(int, input().split())
 
-angle_h = 30 * h + 0.5 * m 
+angle_h = 30 * h + 0.5 * m
 angle_m = 6 * m
-angle = angle_h - angle_m
-rad = math.radians(angle)
-ans = (a ** 2 + b ** 2 - 2 * a * b * math.cos(rad)) ** 0.5
-print("%.10f" % ans)
+
+degrees = abs(angle_h - angle_m)
+radians = math.radians(degrees)
+cos = math.cos(radians)
+ans = math.sqrt(a ** 2 + b ** 2 - 2 * a * b * cos)
+
+print("%.9f" % ans)
 
 # 三角関数version
 import math

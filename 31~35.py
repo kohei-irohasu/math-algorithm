@@ -75,6 +75,7 @@ print("%.7f" % ans)
 
 
 # 034
+import math
 n = int(input())
 x = [0 for _ in range(n)]
 y = [0 for _ in range(n)]
@@ -85,7 +86,7 @@ for i in range(n):
 ans = 10 ** 7
 for i in range(n):
     for j in range(i + 1, n):
-        dist = (((x[i] - x[j]) ** 2 + (y[i] - y[j]) ** 2) ** 0.5)
+        dist = math.sqrt((x[i] - x[j]) ** 2 + (y[i] - y[j]) ** 2)
         ans = min(ans, dist)
 
 print("%.10f" % ans)
