@@ -33,28 +33,28 @@ print("%.10f" % d)
 
 
 # 037
-# ベクトル(ax, ay)と(bx, by)の外積の絶対値を外した値
+# cross関数(ベクトル(ax, ay)と(bx, by)の外積の絶対値を外した値)
 def cross(ax, ay, bx, by):
     return ax * by - ay * bx
 
 # 入力
-x1, y1 = map(int, input().split())
-x2, y2 = map(int, input().split())
-x3, y3 = map(int, input().split())
-x4, y4 = map(int, input().split())
+ax, ay = map(int, input().split())
+bx, by = map(int, input().split())
+cx, cy = map(int, input().split())
+dx, dy = map(int, input().split())
 
-# crossの値
-ans1 = cross(x2 - x1, y2 - y1, x3 - x1, y3 - y1)
-ans2 = cross(x2 - x1, y2 - y1, x4 - x1, y4 - y1)
-ans3 = cross(x4 - x3, y4 - y3, x1 - x3, y1 - y3)
-ans4 = cross(x4 - x3, y4 - y3, x2 - x3, y2 - y3)
+# それぞれのcrossを求める
+crossBAC = cross(bx - ax, by - ay, cx - ax, cy - ay)
+crossBAD = cross(bx - ax, by - ay, dx - ax, dy - ay)
+crossDCA = cross(dx - cx, dy - cy, ax - cx, ay - cy)
+crossDCB = cross(dx - cx, dy - cy, bx - cx, by - cy)
 
-# 全て一直線に並んでいる場合
-if ans1 == 0 and ans2 == 0 and ans3 == 0 and ans4 == 0:
-    a = (x1, y1)
-    b = (x2, y2)
-    c = (x3, y3)
-    d = (x4, y4)
+# 一直線上に並んでいる状態
+if crossBAC == 0 and crossBAD == 0 and crossDCA == 0 and crossDCB == 0:
+    a = (ax, ay)
+    b = (bx, by)
+    c = (cx, cy)
+    d = (dx, dy)
     if a > b:
         a, b = b, a
     if c > d:
@@ -64,20 +64,22 @@ if ans1 == 0 and ans2 == 0 and ans3 == 0 and ans4 == 0:
     else:
         print('No')
 
-# 普通の場合
+#普通の場合
 else:
-    isAb = False
-    isCd = False
-    if ans1 >= 0 and ans2 <= 0:
-        isAb = True
-    if ans1 <= 0 and ans2 >= 0:
-        isAb = True
-    if ans3 >= 0 and ans4 <= 0:
-        isCd = True
-    if ans3 <= 0 and ans4 >= 0:
-        isCd = True
-        
-    if isAb == True and isCd == True:
+    # isAB => 線分ABは点C, Dを分けているか？
+    isAB = False
+    isCD = False
+
+    if crossBAC >= 0 and crossBAD <= 0:
+        isAB = True
+    if crossBAC <= 0 and crossBAD >= 0:
+        isAB = True
+    if crossDCA >= 0 and crossDCB <= 0:
+        isCD = True
+    if crossDCA <= 0 and crossDCB >= 0:
+        isCD = True
+    
+    if isAB == True and isCD == True:
         print('Yes')
     else:
         print('No')
