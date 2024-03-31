@@ -89,10 +89,10 @@ else:
 # b[0] = 0と置くと実装が楽
 n, q = map(int, input().split())
 a = list(map(int, input().split()))
+
 b = [0 for _ in range(n + 1)]
-b[0] = 0
 for i in range(n):
-    b[i + 1] += b[i] + a[i]
+    b[i + 1] = b[i] + a[i]
 
 for i in range(q):
     l, r = map(int, input().split())
@@ -103,27 +103,22 @@ for i in range(q):
 # 求めるのは大小関係のみだから、階差をとって
 # 計算量を減らす。
 n, q = map(int, input().split())
-l = [None] * q
-r = [None] * q
-x = [None] * q
-for i in range(q):
-    l[i], r[i], x[i] = map(int, input().split())
 
 # 階差の計算
-b = [0] * (n + 2)
+b = [0] * (n + 2)   # 1~n+1までで0インデックスだから
 for i in range(q):
-    b[l[i]] += x[i]
-    b[r[i] + 1] -= x[i]
+    l, r, x = map(int, input().split())
+    b[l] += x
+    b[r + 1] -= x
 
-# 答えを計算を出力
 ans = ""
-for i in range(2, n + 1):
+for i in range(2, n + 1):  # bi = i - (i - 1)
     if b[i] > 0:
-        ans += '<'
+        ans += "<"
     if b[i] == 0:
-        ans += '='
+        ans += "="
     if b[i] < 0:
-        ans += '>'
+        ans += ">"
 print(ans)
 
 
