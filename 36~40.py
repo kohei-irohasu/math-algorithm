@@ -132,12 +132,12 @@ b = [0] * m
 for i in range(m):
     b[i] = int(input())
 
-s = [0] * n
-for i in range(1, n):
-    s[i] = s[i - 1] + a[i - 1]
+c = [0] * (n + 1)
+for i in range(2, n + 1):
+    c[i] = c[i - 1] + a[i - 2]
 
 ans = 0
 for i in range(m - 1):
-     ans += abs(s[b[i] - 1] - s[b[i + 1] - 1])
-
+    ans += abs(c[b[i]] - c[b[i + 1]])
+    
 print(ans)
