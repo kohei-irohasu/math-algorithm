@@ -49,37 +49,31 @@ print(ans)
 
 # 043 DFS
 n, m = map(int, input().split())
-a = [0] * m
-b = [0] * m
-for i in range(m):
-    a[i], b[i] = map(int, input().split())
-    
+g = [[] for _ in range(n + 1)]
+
 # 隣接リストの作成
-g = [list() for _ in range(n + 1)]
-for i in range(m):
-    g[a[i]].append(b[i])
-    g[b[i]].append(a[i])
+for _ in range(m):
+    a, b = map(int, input().split())
+    g[a].append(b)
+    g[b].append(a)
 
-# 深さ優先探索の初期化
-visited = [False] * (n + 1)
-s = list()  # スタックを定義
-visited[1] = True
-s.append(1)
+# DFSの初期化と関数化
+def dfs(start):
+    visited = [False] * (n + 1)
+    stack = [start] # スタックで管理する
+    visited[start] = True
+    
+    while stack:
+        pos = stack.pop()
+        for nex in g[pos]:
+            if not visited[nex]:
+                visited[nex] = True
+                stack.append(nex)
+    return visited
 
-# 深さ優先探索
-while len(s) >= 1:
-    pos = s.pop()
-    for nex in g[pos]:
-        if visited[nex] == False:
-            visited[nex] = True
-            s.append(nex)
-
-# 連結か同課の判定
-ans = True
-for i in range(1, n + 1):
-    if visited[i] == False:
-        ans = False
-if ans:
+# 連結かどうかの判定
+visited = dfs(1)
+if all(visited[i] for i in range(1, n + 1)):
     print('The graph is connected.')
 else:
     print('The graph is not connected.')
