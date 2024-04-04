@@ -79,35 +79,30 @@ else:
     print('The graph is not connected.')
 
 
-# 044
-import queue
+# 044 BFS
+from collections import deque
+
+def bfs(start):
+    queue = deque([start])
+    distance[start] = 0
+    while queue:
+        node = queue.popleft()
+        for next_node in g[node]:
+            if distance[next_node] == -1:
+                distance[next_node] = distance[node] + 1
+                queue.append(next_node)
+
 n, m = map(int, input().split())
-a = [0] * m
-b = [0] * m
-for i in range(m):
-    a[i], b[i] = map(int, input().split())
+g = [[] for _ in range(n + 1)]
+for _ in range(m):
+    a, b = map(int, input().split())
+    g[a].append(b)
+    g[b].append(a)
 
-g = [list() for _ in range(n + 1)]
-for i in range(m):
-    g[a[i]].append(b[i])
-    g[b[i]].append(a[i])
+distance = [-1] * (n + 1)
+bfs(1)
 
-# 幅優先探索の初期化
-dist = [-1] * (n + 1)
-q = queue.Queue()
-dist[1] = 0
-q.put(1)
-
-# 幅優先探索
-while not q.empty():
-    pos = q.get()
-    for nex in g[pos]:
-        if dist[nex] == -1:
-            dist[nex] = dist[pos] + 1
-            q.put(nex)
-
-for i in range(1, n + 1):
-    print(dist[i])
+print('\n'.join(map(str, distance[1:])))  #\nで文字列を結合
 
 
 # 045
