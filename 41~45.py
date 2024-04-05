@@ -107,16 +107,11 @@ print('\n'.join(map(str, distance[1:])))  #\nで文字列を結合
 
 # 045
 n, m = map(int, input().split())
-a = [0] * m
-b = [0] * m
-for i in range(m):
-    a[i], b[i] = map(int, input().split())
-
-# 隣接リストの作成
-g = [list() for _ in range(n + 1)]
-for i in range(m):
-    g[a[i]].append(b[i])
-    g[b[i]].append(a[i])
+g = [[] for _ in range(n + 1)]
+for _ in range(m):
+    a, b = map(int, input().split())
+    g[a].append(b)
+    g[b].append(a)
 
 ans = 0
 for i in range(1, n + 1):
