@@ -1,49 +1,66 @@
 # 046 DFS
-import queue
+from collections import deque
+r, c = map(int, input().split())
 
-h, w = map(int, input().split())
 sy, sx = map(int, input().split())
 gy, gx = map(int, input().split())
-c = [input() for _ in range(h)]
-start = (sy - 1) * w + (sx - 1)
-goal = (gy - 1) * w + (gx - 1)
+grid = [input() for _ in range(r)]
 
-# 隣接リストの作成
-g = [list() for i in range(h * w)]
+distance = [[-1 for _ in range(c)] for _ in range(r)]
+sy -= 1
+sx -= 1
+gy -= 1
+gx -= 1
+que = deque()
+que.append([sy, sx])
+distance[sy][sx] = 0
 
-# 横方向の辺をグラフに追加
-for i in range(h):
-    for j in range(w - 1):
-        if c[i][j] == '.' and c[i][j + 1] == '.':
-            idx1 = i * w + j
-            idx2 = i * w + (j + 1)
-            g[idx1].append(idx2)
-            g[idx2].append(idx1)
+while que:
+    y, x = que.popleft()
+    d = distance[y][x]
+    next = [
+        [y - 1, x],
+        [y + 1, x],
+        [y, x + 1],
+        [y, x - 1],
+    ]
+    for n in next:
+        ny, nx = n
+        if distance[ny][nx] != -1:
+            continue
+        if grid[ny][nx] == "#":
+            continue
+        que.append([ny, nx])
+        distance[ny][nx] = d + 1
 
-# 縦方向の辺をグラフに追加
-for i in range(h - 1):
-    for j in range(w):
-        if c[i][j] == '.' and c[i + 1][j] == '.':
-            idx1 = i * w + j
-            idx2 = (i + 1) * w + j
-            g[idx1].append(idx2)
-            g[idx2].append(idx1)
+print(distance[gy][gx])
 
-# 幅優先探索の初期化
-dist = [-1] * (h * w)
-q = queue.Queue()
-dist[start] = 0
-q.put(start)
+# リファクタリングver
+from collections import deque
+r, c = map(int, input().split())
 
-# 幅優先探索
-while not q.empty():
-    pos = q.get()
-    for nex in g[pos]:
-        if dist[nex] == -1:
-            dist[nex] = dist[pos] + 1
-            q.put(nex)
+sy, sx = map(lambda x: int(x) - 1, input().split())
+gy, gx = map(lambda x: int(x) - 1, input().split())
+grid = [input() for _ in range(r)]
 
-print(dist[goal])
+distance = [[-1] * c for _ in range(r)]
+que = deque()
+que.append((sy, sx))
+distance[sy][sx] = 0
+
+while que:
+    y, x = que.popleft()
+    for dy, dx in [(-1, 0), (1, 0), (0, 1), (0, - 1)]:
+        ny, nx = y + dy, x + dx
+        if not (0 <= ny < r and 0 <= nx < c):
+            continue
+        if grid[ny][nx] == "#" or distance[ny][nx] != -1:
+            continue
+        que.append((ny, nx))
+        distance[ny][nx] = distance[y][x] + 1
+
+print(distance[gy][gx])
+
 
 
 # 047
