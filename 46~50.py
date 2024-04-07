@@ -1,4 +1,4 @@
-# 046 DFS
+# 046 BFS
 from collections import deque
 r, c = map(int, input().split())
 
@@ -65,39 +65,79 @@ print(distance[gy][gx])
 
 # 047
 # 連結を前提としないなら、すべての頂点について
-# 深さ優先探索を行わなければならない。
+# 探索を行わなければならない。
+
+# DFSversion 深さ優先
 def dfs(start, g, color):
-    s = [start]
+    stack = [start]
     color[start] = 0
     
-    while s:
-        pos = s.pop()
-        for nex in g[pos]:
-            if color[nex] == -1:
-                color[nex] = 1 - color[pos]
-                s.append(nex)
+    while stack:
+        post = stack.pop()
+        for i in g[post]:
+            if color[i] == -1:
+                color[i] = 1 - color[post]
+                stack.append(i)
+            elif color[i] == color[post]:
+                return False
+    return True
 
 n, m = map(int, input().split())
-a = [None] * m
-b = [None] * m
+g = [[] for i in range(n + 1)]
 for i in range(m):
-    a[i], b[i] = map(int, input().split())
-
-g = [[] for _ in range(n + 1)]
-for i in range(m):
-    g[a[i]].append(b[i])
-    g[b[i]].append(a[i])
+    a, b = map(int, input().split())
+    g[a].append(b)
+    g[b].append(a)
 
 color = [-1] * (n + 1)
-
+is_bipartite = True
 for i in range(1, n + 1):
     if color[i] == -1:
-        dfs(i, g, color)
-    
-# 二部グラフかどうか
-ans = all(color[a[i]] != color[b[i]] for i in range(m))
-print('Yes' if ans else 'No') 
+        if not dfs(i, g, color):
+            is_bipartite = False
 
+if is_bipartite:
+    print('Yes')
+else:
+    print('No')
+
+
+# BFSversion 幅優先
+from collections import deque
+
+n, m = map(int, input().split())
+g = [[] for _ in range(n + 1)]
+for i in range(m):
+    a, b = map(int, input().split())
+    g[a].append(b)
+    g[b].append(a)
+
+visited = [-1] * (n + 1)
+
+def bfs(start):
+    que = deque([start])
+    visited[start] = 0
+    while que:
+        post = que.popleft()
+        for i in g[post]:
+            if visited[i] == -1:
+                que.append(i)
+                visited[i] = (visited[post] + 1) % 2
+            elif visited[i] == visited[post]:
+                return False
+    return True
+
+is_bipartite = True
+for i in range(1, n + 1):
+    if visited[i] == -1:
+        if not bfs(i):
+            is_bipartite = False
+            break
+        
+if is_bipartite:
+    print('Yes')
+else:
+    print('No')
 
 # 048 ダイクストラ法
 # kの倍数＝ kで割り切れる
