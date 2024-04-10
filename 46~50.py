@@ -192,6 +192,7 @@ print(a[n])
 
 
 # 050
+# pはpower(べき乗)の略
 def modpow(a, b, m):
     p = a
     ans = 1
@@ -203,4 +204,5 @@ def modpow(a, b, m):
 
 MOD = 1000000007
 a, b = map(int, input().split())
-print(modpow(a, b, MOD))
+ans = modpow(a, b, MOD)
+print(ans)
