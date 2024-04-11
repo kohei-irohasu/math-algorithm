@@ -41,19 +41,19 @@ def division(a, b, m):
     return (a * modpow(b, m - 2, m)) % m
 
 def ncr(n, r):
-    global fact, MOD
     return division(fact[n], fact[r] * fact[n - r] % MOD, MOD)
 
+x, y = map(int, input().split())
 MOD = 1000000007
-LIMIT = 200000
+n = x + y
 
-fact = [None] * (LIMIT + 1)
+fact =[0] * (n + 1)
 fact[0] = 1
-for i in range(1, LIMIT + 1):
+for i in range(1, n + 1):
     fact[i] = fact[i - 1] * i % MOD
 
-x, y = map(int, input().split())
-print(ncr(x + y, y))
+ans = ncr(n, y)
+print(ans)
 
 
 # 052
