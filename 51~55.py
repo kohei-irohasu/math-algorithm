@@ -67,27 +67,26 @@ def modpow(a, b, m):
     return ans
 
 def division(a, b, m):
-    return (a * modpow(b, m - 2, m)) % m
+    return a * modpow(b, m - 2, m) % m
 
 x, y = map(int, input().split())
-mod = 1000000007
+MOD = 10 ** 9 + 7
 
-if (2 * y - x) < 0 or (2 * x - y) < 0:
+if (2 * x - y) < 0 or (2 * y - x) < 0:
     print(0)
-elif (2 * y - x) % 3 != 0 or (2 * x - y) % 3 != 0:
+elif (2 * x - y) % 3 != 0 or (2 * y - x) % 3 != 0:
     print(0)
 else:
-    bunshi, bunbo = 1, 1
     a = (2 * y - x) // 3
     b = (2 * x - y) // 3
-    
-    for i in range(1, a + b + 1):
-        bunshi = (bunshi * i) % mod 
-    for i in range(1, a + 1):
-        bunbo = (bunbo * i) % mod
-    for i in range(1, b + 1):
-        bunbo = (bunbo * i) % mod
-    print(division(bunshi, bunbo, mod))
+
+    n = a + b
+    fact = [0] * (n + 1)
+    fact[0] = 1
+    for i in range(1, n + 1):
+        fact[i] = (fact[i - 1] * i) % MOD
+    ans = division(fact[n], fact[a] * fact[b] % MOD, MOD)
+    print(ans)
     
 
 # 053
