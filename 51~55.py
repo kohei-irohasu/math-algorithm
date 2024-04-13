@@ -94,18 +94,17 @@ def modpow(a, b, m):
     p = a
     ans = 1
     for i in range(60):
-        if (b &(1 << i)) != 0:
+        if (b & (1 << i)) != 0:
             ans = (ans * p) % m
         p = (p * p) % m
     return ans
 
-def division(a, b, m):
-    return (a * modpow(b, m - 2, m)) % m
-
 n = int(input())
-mod = 1000000007
-v = modpow(4, n + 1, mod) - 1
-ans = division(v, 3, mod)
+MOD = 10 ** 9 + 7
+numerator = modpow(4, n + 1, MOD) - 1
+denominator = modpow(3, MOD - 2, MOD)
+
+ans = numerator * denominator % MOD
 print(ans)
 
 
